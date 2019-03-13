@@ -3,6 +3,7 @@ package com.alexvak.polls.bootstrap;
 import com.alexvak.polls.domain.Role;
 import com.alexvak.polls.domain.RoleName;
 import com.alexvak.polls.domain.User;
+import com.alexvak.polls.repository.RoleRepository;
 import com.alexvak.polls.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
@@ -20,35 +21,48 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final RoleRepository roleRepository;
 
-    public UserBootstrap(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserBootstrap(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     @Override
     @Transactional
     public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+        //Role
+        if (!roleRepository.findByName(RoleName.ROLE_ADMIN).isPresent()) {
+            Role role = new Role(RoleName.ROLE_ADMIN);
+            roleRepository.save(role);
+        }
+        if (!roleRepository.findByName(RoleName.ROLE_USER).isPresent()) {
+            Role role = new Role(RoleName.ROLE_USER);
+            roleRepository.save(role);
+        }
+
+        //User
         if (!userRepository.findByUsername("user1").isPresent()) {
-            User user1 = new User();
-            user1.setName("user1");
-            user1.setUsername("user1");
-            user1.setPassword(passwordEncoder.encode("password1"));
-            user1.setEmail("user1@gmail.com");
-            Role role1 = new Role(RoleName.ROLE_ADMIN);
-            user1.getRoles().add(role1);
-            userRepository.save(user1);
+            User user = new User();
+            user.setName("user1");
+            user.setUsername("user1");
+            user.setPassword(passwordEncoder.encode("password1"));
+            user.setEmail("user1@gmail.com");
+            Role role = roleRepository.findByName(RoleName.ROLE_ADMIN).get();
+            user.getRoles().add(role);
+            userRepository.save(user);
         }
 
         if (!userRepository.findByUsername("user2").isPresent()) {
-            User user2 = new User();
-            user2.setName("user2");
-            user2.setUsername("user2");
-            user2.setPassword(passwordEncoder.encode("password2"));
-            user2.setEmail("user2@gmail.com");
-            Role role2 = new Role(RoleName.ROLE_USER);
-            user2.getRoles().add(role2);
-            userRepository.save(user2);
+            User user = new User();
+            user.setName("user2");
+            user.setUsername("user2");
+            user.setPassword(passwordEncoder.encode("password2"));
+            user.setEmail("user2@gmail.com");
+            Role role = roleRepository.findByName(RoleName.ROLE_USER).get();
+            user.getRoles().add(role);
+            userRepository.save(user);
         }
     }
 
