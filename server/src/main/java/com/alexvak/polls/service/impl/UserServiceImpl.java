@@ -3,7 +3,7 @@ package com.alexvak.polls.service.impl;
 import com.alexvak.polls.domain.Role;
 import com.alexvak.polls.domain.RoleName;
 import com.alexvak.polls.domain.User;
-import com.alexvak.polls.exception.AppException;
+import com.alexvak.polls.exception.RoleNotFoundException;
 import com.alexvak.polls.payload.SignUpRequest;
 import com.alexvak.polls.repository.RoleRepository;
 import com.alexvak.polls.repository.UserRepository;
@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-                .orElseThrow(() -> new AppException("User Role not set."));
+                .orElseThrow(() -> new RoleNotFoundException(RoleName.ROLE_USER.toString()));
 
         user.setRoles(Collections.singleton(userRole));
 

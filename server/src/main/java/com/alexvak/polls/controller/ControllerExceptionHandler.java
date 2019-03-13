@@ -1,8 +1,7 @@
 package com.alexvak.polls.controller;
 
 import com.alexvak.polls.exception.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import com.alexvak.polls.payload.ApiResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
@@ -31,15 +30,15 @@ public class ControllerExceptionHandler {
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ResponseException> handleUserNotFoundException(Exception exception) {
-        return new ResponseEntity<>(new ResponseException(exception.getMessage()),
+    @ExceptionHandler(RoleNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleRoleNotFoundException(Exception exception) {
+        return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()),
                 HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DuplicateUserFoundException.class)
-    public ResponseEntity<ResponseException> handleDuplicateUserFoundException(Exception exception) {
-        return new ResponseEntity<>(new ResponseException(exception.getMessage()),
+    public ResponseEntity<ApiResponse> handleDuplicateUserFoundException(Exception exception) {
+        return new ResponseEntity<>(new ApiResponse(false, exception.getMessage()),
                 HttpStatus.CONFLICT);
     }
 
@@ -86,11 +85,4 @@ public class ControllerExceptionHandler {
         }
         return fieldValidationError;
     }
-
-    @Data
-    @AllArgsConstructor
-    private static class ResponseException {
-        private String message;
-    }
-
 }
