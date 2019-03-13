@@ -3,12 +3,11 @@ package com.alexvak.polls.payload;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 @Data
-public class LoginRequest {
+public class ChoiceRequest {
     @NotBlank
-    private String usernameOrEmail;
-
-    @NotBlank
-    private String password;
+    @Size(max = 40)
+    private String text;
 }
