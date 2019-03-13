@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    platform: h2
+  jpa:
+    show-sql: true
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+    time-zone: UTC
