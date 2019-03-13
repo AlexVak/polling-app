@@ -8,7 +8,7 @@ import javax.annotation.PostConstruct;
 import java.util.TimeZone;
 
 @SpringBootApplication
-public class DevconnectorRestApplication {
+public class PollingApp {
 
     @PostConstruct
     void init() {
@@ -17,7 +17,7 @@ public class DevconnectorRestApplication {
 
     public static void main(String[] args) {
         new SpringApplicationBuilder().bannerMode(Banner.Mode.OFF)
-                .sources(DevconnectorRestApplication.class).run(args);
+                .sources(PollingApp.class).run(args);
     }
 
 }
