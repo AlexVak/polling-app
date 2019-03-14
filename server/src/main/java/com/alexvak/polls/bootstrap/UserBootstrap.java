@@ -49,7 +49,7 @@ public class UserBootstrap implements ApplicationListener<ContextRefreshedEvent>
             user.setUsername("user1");
             user.setPassword(passwordEncoder.encode("password1"));
             user.setEmail("user1@gmail.com");
-            Role role = roleRepository.findByName(RoleName.ROLE_ADMIN).get();
+            Role role = roleRepository.findByName(RoleName.ROLE_USER).get();
             user.getRoles().add(role);
             userRepository.save(user);
         }
