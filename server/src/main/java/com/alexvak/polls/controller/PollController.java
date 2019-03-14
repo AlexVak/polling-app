@@ -2,9 +2,6 @@ package com.alexvak.polls.controller;
 
 import com.alexvak.polls.domain.Poll;
 import com.alexvak.polls.payload.*;
-import com.alexvak.polls.repository.PollRepository;
-import com.alexvak.polls.repository.UserRepository;
-import com.alexvak.polls.repository.VoteRepository;
 import com.alexvak.polls.security.CurrentUser;
 import com.alexvak.polls.security.UserPrincipal;
 import com.alexvak.polls.service.PollService;
@@ -24,15 +21,9 @@ import java.net.URI;
 public class PollController {
 
 
-    private final PollRepository pollRepository;
-    private final VoteRepository voteRepository;
-    private final UserRepository userRepository;
     private final PollService pollService;
 
-    public PollController(PollRepository pollRepository, VoteRepository voteRepository, UserRepository userRepository, PollService pollService) {
-        this.pollRepository = pollRepository;
-        this.voteRepository = voteRepository;
-        this.userRepository = userRepository;
+    public PollController(PollService pollService) {
         this.pollService = pollService;
     }
 
